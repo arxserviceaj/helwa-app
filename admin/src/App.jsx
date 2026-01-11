@@ -1,15 +1,17 @@
 import './App.css'
-import Navigation from './customer/components/Navigation'
-import Homepage from './pages/Homepage'
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { UserLayout } from './components/Layout/UserLayout';
 
 function App() {
   return (
-    <div className="">
-      <Navigation/>
-      <div>
-        <Homepage/>
-      </div>
-    </div>
+   <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<UserLayout/>}></Route>
+        <Route></Route>
+        <Route></Route>
+        <Route></Route>
+      </Routes>
+   </BrowserRouter>
   )
 }
 
