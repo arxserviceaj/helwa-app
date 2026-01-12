@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { Popover, Transition } from "@headlessui/react";
 import { navigation } from "../../data/navigationData";
@@ -8,15 +8,21 @@ import {
   HiOutlineUser,
 } from "react-icons/hi2";
 import SearchBar from "./SearchBar";
+import CartDrawer from "../Layout/CartDrawer";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
+  const [drawerOpen,setDrawerOpen] = useState(false);
+    const toggleCartDrawer = () =>{
+        setDrawerOpen(!drawerOpen);
+    };
   return (
-    <div className="relative bg-white">
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
+    <>
+      {/* <nav className="relative bg-white"> */}
+      <nav className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* LOGO */}
         <Link to="/" className="text-2xl font-medium">
           Helwa
@@ -90,7 +96,7 @@ const Navbar = () => {
                                 />
 
                                 {/* GRADIENT */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                               </div>
 
                               {/* TEXT */}
@@ -120,7 +126,7 @@ const Navbar = () => {
             <HiOutlineUser className="h-6 w-6 text-gray-700 " />
           </Link>
 
-          <button className="relative hover:text-black cursor-pointer">
+          <button onClick={toggleCartDrawer} className="relative hover:text-black cursor-pointer">
             <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 " />
             <span className="absolute -top-1 bg-[#4F3AF6] text-white text-xs rounded-full px-2 py-0.5">
               0
@@ -134,9 +140,12 @@ const Navbar = () => {
           <button className="md:hidden">
             <HiBars3BottomRight className="w-6 h-6 text-gray-700" />
           </button>
+
         </div>
-      </div>
-    </div>
+      </nav>
+        <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer}/>
+       {/* </nav> */}
+      </>
   );
 };
 
