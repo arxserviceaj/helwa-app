@@ -11,14 +11,14 @@ function App() {
         <Route path='/' element={<UserLayout/>}></Route>
       </Routes>
 
-  <header>
+  {/* <header>
       <SignedOut>
         <SignInButton mode='modal' />
       </SignedOut>
       <SignedIn>
         <UserButton />
       </SignedIn>
-    </header>
+    </header> */}
    </BrowserRouter>
   )
 }
