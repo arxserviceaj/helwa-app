@@ -9,16 +9,22 @@ import {
 } from "react-icons/hi2";
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
-  const [drawerOpen,setDrawerOpen] = useState(false);
-    const toggleCartDrawer = () =>{
-        setDrawerOpen(!drawerOpen);
-    };
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const toggleCartDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
   return (
     <>
       {/* <nav className="relative bg-white"> */}
@@ -122,11 +128,22 @@ const Navbar = () => {
 
         {/* RIGHT ICONS */}
         <div className="flex items-center space-x-4">
-          <Link to="/profile" className="hover:text-black">
-            <HiOutlineUser className="h-6 w-6 text-gray-700 " />
-          </Link>
+          <div className="hover:text-black cursor-pointer">
+            <SignedOut>
+              <SignInButton mode="modal">
+                <HiOutlineUser className="h-6 w-6 text-gray-700" />
+              </SignInButton>
+            </SignedOut>
 
-          <button onClick={toggleCartDrawer} className="relative hover:text-black cursor-pointer">
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
+
+          <button
+            onClick={toggleCartDrawer}
+            className="relative hover:text-black cursor-pointer"
+          >
             <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 " />
             <span className="absolute -top-1 bg-[#4F3AF6] text-white text-xs rounded-full px-2 py-0.5">
               0
@@ -134,18 +151,17 @@ const Navbar = () => {
           </button>
 
           <div className="overflow-hidden">
-          <SearchBar/>
+            <SearchBar />
           </div>
 
           <button className="md:hidden">
             <HiBars3BottomRight className="w-6 h-6 text-gray-700" />
           </button>
-
         </div>
       </nav>
-        <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer}/>
-       {/* </nav> */}
-      </>
+      <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
+      {/* </nav> */}
+    </>
   );
 };
 
