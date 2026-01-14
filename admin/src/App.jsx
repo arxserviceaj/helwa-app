@@ -1,7 +1,7 @@
 import './App.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { UserLayout } from './components/Layout/UserLayout';
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
+// import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 
 
 function App() {
@@ -9,19 +9,17 @@ function App() {
    <BrowserRouter>
       <Routes>
         <Route path='/' element={<UserLayout/>}></Route>
-        <Route></Route>
-        <Route></Route>
-        <Route></Route>
       </Routes>
+
+  <header>
+      <SignedOut>
+        <SignInButton mode='modal' />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </header>
    </BrowserRouter>
-  // <header>
-  //     <SignedOut>
-  //       <SignInButton mode='modal' />
-  //     </SignedOut>
-  //     <SignedIn>
-  //       <UserButton />
-  //     </SignedIn>
-  //   </header>
   )
 }
 
