@@ -6,22 +6,22 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-reac
 
 function App() {
   return (
-  //  <BrowserRouter>
-  //     <Routes>
-  //       <Route path='/' element={<UserLayout/>}></Route>
-  //       <Route></Route>
-  //       <Route></Route>
-  //       <Route></Route>
-  //     </Routes>
-  //  </BrowserRouter>
-  <header>
-      <SignedOut>
-        <SignInButton mode='modal' />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-    </header>
+   <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<UserLayout/>}></Route>
+        <Route></Route>
+        <Route></Route>
+        <Route></Route>
+      </Routes>
+   </BrowserRouter>
+  // <header>
+  //     <SignedOut>
+  //       <SignInButton mode='modal' />
+  //     </SignedOut>
+  //     <SignedIn>
+  //       <UserButton />
+  //     </SignedIn>
+  //   </header>
   )
 }
 
