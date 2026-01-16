@@ -9,6 +9,7 @@ import { ENV } from "./src/config/env.js";
 import { connectDB } from "./src/config/db.js";
 import { functions, inngest } from "./src/config/inggest.js";
 import adminRoutes from "./src/routes/admin.route.js";
+import userRoutes from "./src/routes/user.route.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +27,7 @@ app.use(clerkMiddleware());
 // ================= API =================
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/admin",adminRoutes)
+app.use("/api/users",userRoutes)
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
