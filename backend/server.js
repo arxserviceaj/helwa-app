@@ -1,44 +1,59 @@
-import express from 'express';
+import express from "express";
 import path from "path";
-import {ENV} from "./src/config/env.js";
-import { connectDB } from './src/config/db.js';
-import cookieParser from 'cookie-parser';
+import { fileURLToPath } from "url";
+import cookieParser from "cookie-parser";
 import cors from "cors";
+import { clerkMiddleware } from "@clerk/express";
+import { serve } from "inngest/express";
+import { ENV } from "./src/config/env.js";
+import { connectDB } from "./src/config/db.js";
+import { functions, inngest } from "./src/config/inggest.js";
+import adminRoutes from "./src/routes/admin.route.js";
+import userRoutes from "./src/routes/user.route.js";
+import orderRoutes from "./src/routes/order.route.js";
+import reviewRoutes from "./src/routes/review.route.js";
+import productRoutes from "./src/routes/product.route.js";
+import cartRoutes from "./src/routes/cart.route.js";
 
-const app = express()
-app.use(cors({
-    origin: ENV.FRONTEND_URL,
-    methods: ['GET','POST','DELETE','PUT'],
-    allowedHeaders : [
-        "Content-Type",
-        'Authorization',
-        'Cache-Control',
-        'Expires',
-        'Pragma',
-    ],
-    credentials : true
-}));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+const app = express();
+const PORT = ENV.PORT || 3000;
+
+// ================= MIDDLEWARES =================
+app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
+app.use(clerkMiddleware());
 
-const __dirname = path.resolve();
+// ================= API =================
+app.use("/api/inngest", serve({ client: inngest, functions }));
+app.use("/api/admin",adminRoutes)
+app.use("/api/users",userRoutes)
+app.use("/api/orders",orderRoutes)
+app.use("/api/reviews",reviewRoutes)
+app.use("/api/products",productRoutes)
+app.use("/api/cart",cartRoutes)
 
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
-app.get("/api/health",(req,res)=>{
-    res.status(200).json({message:"Success"});
-})
+// ================= FRONTEND =================
+const frontendPath = path.join(__dirname, "../admin/dist");
 
-if(ENV.NODE_ENV = "production"){
-    app.use(express.static(path.join(__dirname,"../admin/dist")))
+app.use(express.static(frontendPath));
 
-    app.get("/{*any}",(req,res) => {
-        res.sendFile(path.join(__dirname,"../admin","dist","index.html"))
-    })
-}
+// EXPRESS 5 SAFE CATCH-ALL
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
 
-app.listen(ENV.PORT,()=>{ 
-    console.log("Server1 is running ")
-    connectDB();
-})
+// ================= START =================
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("Server running on", PORT);
+  console.log("Frontend path:", frontendPath);
+  connectDB();
+});

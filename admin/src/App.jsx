@@ -7,9 +7,6 @@ function App() {
    <BrowserRouter>
       <Routes>
         <Route path='/' element={<UserLayout/>}></Route>
-        <Route></Route>
-        <Route></Route>
-        <Route></Route>
       </Routes>
    </BrowserRouter>
   )
